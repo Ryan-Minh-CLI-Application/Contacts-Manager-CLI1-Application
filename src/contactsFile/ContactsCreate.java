@@ -78,12 +78,33 @@ public class ContactsCreate {
         String name = scanner.next();
         if(contacts.stream().anyMatch(contact -> contact.name.equalsIgnoreCase(name))) {
             System.out.printf("There's already a contact named %s. Do you want to overwrite it? (Yes/No)\n", name);
-
+            String overwrite = scanner.next();
+            if(overwrite.equalsIgnoreCase("yes") || overwrite.equalsIgnoreCase("y")){
+                deleteOldContact(name);
+                System.out.print("Enter new contact phone number: ");
+                String phoneNumber = scanner.next();
+                contacts.add(new Contact(name, phoneNumber));
+                System.out.println("Contact was overwrite successfully.\n");
+            } else {
+                System.out.println("Please enter the contact information again.\n");
+            }
         } else {
             System.out.print("Enter contact phone number: ");
             String phoneNumber = scanner.next();
             contacts.add(new Contact(name, phoneNumber));
             System.out.println("Contact added successfully.\n");
+        }
+    }
+    private static void deleteOldContact(String name){
+        Contact contactToDelete = null;
+        for(Contact contact : contacts){
+            if (contact.name.equalsIgnoreCase(name)){
+                contactToDelete = contact;
+                break;
+            }
+        }
+        if(contactToDelete != null) {
+            contacts.remove(contactToDelete);
         }
     }
     private static void searchContactByName(Scanner scanner){
