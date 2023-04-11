@@ -45,6 +45,59 @@ public class contactGreate {
 
     }
 
+    public static void viewContacts () {
+        System.out.println(("\nName | Phone number"));
+        System.out.println("------------------");
+        contacts.forEach(System.out::println);
+    }
+
+    public static void addNewContact (Scanner scanner){
+        System.out.print("Enter contact name: ");
+        String name = scanner.next();
+        System.out.print("Enter contact phone numbers: ");
+        String phone = scanner.next();
+        contacts.add(new contact(name, phone));
+        System.out.println("Added contact successfully!");
+    }
+
+    public static void searchContactByName (Scanner scanner) {
+        scanner.nextLine();
+        System.out.print("Enter contact name: ");
+        String name = scanner.nextLine();
+        contacts.stream()
+                .filter(contact -> contact.name.equalsIgnoreCase(name))
+                .forEach(System.out::println);
+    }
+
+    public static void deleteExistingContact(Scanner scanner) {
+        System.out.println("Enter contact name: ");
+        String name = scanner.nextLine();
+        contact contactDelete = null;
+        for(contact contact : contacts){
+            if (contact.name.equalsIgnoreCase(name)){
+                contactDelete = contact;
+                break;
+            }
+        }
+        if (contactDelete != null){
+            contacts.remove(contactDelete);
+            System.out.println("Contact delete successfully!");
+        } else {
+            System.out.println("Contact not found!");
+        }
+    }
+
+    public static void saveContacts () throws IOException {
+        List<String> contactSave = contacts.stream()
+                .map(contact -> contact.name + " " + contact.phoneNumber)
+                .collect(Collectors.toList());
+        Files.write(Path.of(contactsDirectory, contactTxt), contactSave);
+        System.out.println("Contact Saved");
+    }
+
+
+
+
     private static void initializeContactsFile() throws IOException {
         Path pathToDirectory = Path.of(contactsDirectory);
         if (Files.notExists(pathToDirectory)) {
