@@ -76,10 +76,15 @@ public class ContactsCreate {
     private static void addNewContact(Scanner scanner) {
         System.out.print("Enter contact name: ");
         String name = scanner.next();
-        System.out.print("Enter contact phone number: ");
-        String phoneNumber = scanner.next();
-        contacts.add(new Contact(name, phoneNumber));
-        System.out.println("Contact added successfully.\n");
+        if(contacts.stream().anyMatch(contact -> contact.name.equalsIgnoreCase(name))) {
+            System.out.printf("There's already a contact named %s. Do you want to overwrite it? (Yes/No)\n", name);
+
+        } else {
+            System.out.print("Enter contact phone number: ");
+            String phoneNumber = scanner.next();
+            contacts.add(new Contact(name, phoneNumber));
+            System.out.println("Contact added successfully.\n");
+        }
     }
     private static void searchContactByName(Scanner scanner){
         scanner.nextLine();
