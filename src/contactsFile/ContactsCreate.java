@@ -69,9 +69,18 @@ public class ContactsCreate {
         return scanner.nextInt();
     }
     private static void viewContacts() {
-        System.out.println("\nName | Phone number");
-        System.out.println("-------------------");
-        contacts.forEach(System.out::println);
+        System.out.println("\nName       | Phone number");
+        System.out.println("--------------------------");
+        for (Contact contact : contacts){
+            String formattedPhoneNumber;
+            if(contact.phoneNumber.length() > 7) {
+                formattedPhoneNumber = contact.phoneNumber.substring(0, 3) + "-" + contact.phoneNumber.substring(3, 6)
+                        + "-" + contact.phoneNumber.substring(6);
+            } else {
+                formattedPhoneNumber = contact.phoneNumber.substring(0, 3) + "-" + contact.phoneNumber.substring(3);
+            }
+            System.out.printf("%-11s| %s%n", contact.name,formattedPhoneNumber);
+        }
     }
     private static void addNewContact(Scanner scanner) {
         System.out.print("Enter contact name: ");
@@ -112,7 +121,7 @@ public class ContactsCreate {
         System.out.print("Enter contact name: ");
         String name = scanner.next();
         contacts.stream()
-                .filter(contact -> contact.name.equalsIgnoreCase(name))
+                .filter(contact -> contact.name.equalsIgnoreCase(name.trim()))
                 .forEach(System.out::println);
         System.out.println();
     }

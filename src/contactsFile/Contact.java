@@ -27,13 +27,6 @@ class Contact {
 
     @Override
     public String toString() {
-        String formattedPhoneNumber;
-        if(phoneNumber.length() > 7) {
-            formattedPhoneNumber = phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3, 6)
-                    + "-" + phoneNumber.substring(6);
-        } else {
-            formattedPhoneNumber = phoneNumber.substring(0, 3) + "-" + phoneNumber.substring(3);
-        }
-        return name + " | " + formattedPhoneNumber;
+        return name + " | " + phoneNumber;
     }
 }
