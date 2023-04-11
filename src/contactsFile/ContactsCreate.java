@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class ContactsCreate {
     private static String contactsDirectory = "src/contactsFile/contacts";
@@ -72,15 +73,18 @@ public class ContactsCreate {
         System.out.println("\nName       | Phone number");
         System.out.println("--------------------------");
         for (Contact contact : contacts){
-            String formattedPhoneNumber;
-            if(contact.phoneNumber.length() > 7) {
-                formattedPhoneNumber = contact.phoneNumber.substring(0, 3) + "-" + contact.phoneNumber.substring(3, 6)
-                        + "-" + contact.phoneNumber.substring(6);
-            } else {
-                formattedPhoneNumber = contact.phoneNumber.substring(0, 3) + "-" + contact.phoneNumber.substring(3);
-            }
-            System.out.printf("%-11s| %s%n", contact.name,formattedPhoneNumber);
+            formatPrint(contact);
         }
+    }
+    private static void formatPrint(Contact contact){
+        String formattedPhoneNumber;
+        if(contact.phoneNumber.length() > 7) {
+            formattedPhoneNumber = contact.phoneNumber.substring(0, 3) + "-" + contact.phoneNumber.substring(3, 6)
+                    + "-" + contact.phoneNumber.substring(6);
+        } else {
+            formattedPhoneNumber = contact.phoneNumber.substring(0, 3) + "-" + contact.phoneNumber.substring(3);
+        }
+        System.out.printf("%-11s| %s%n", contact.name,formattedPhoneNumber);
     }
     private static void addNewContact(Scanner scanner) {
         System.out.print("Enter contact name: ");
@@ -120,10 +124,17 @@ public class ContactsCreate {
         scanner.nextLine();
         System.out.print("Enter contact name: ");
         String name = scanner.next();
-        contacts.stream()
-                .filter(contact -> contact.name.equalsIgnoreCase(name.trim()))
-                .forEach(System.out::println);
-        System.out.println();
+        Optional<Contact> foundContact = contacts.stream()
+                .filter(contact -> contact.name.equalsIgnoreCase(name))
+                .findFirst();
+
+        if (foundContact.isPresent()) {
+            System.out.println("\nName       | Phone number");
+            System.out.println("--------------------------");
+            formatPrint(foundContact.get());
+        } else {
+            System.out.println("Contact not found.\n");
+        }
     }
     private static void deleteExistingContact(Scanner scanner){
         scanner.nextLine();
