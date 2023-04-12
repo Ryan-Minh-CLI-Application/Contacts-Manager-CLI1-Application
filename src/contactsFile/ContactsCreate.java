@@ -15,6 +15,7 @@ public class ContactsCreate {
     public static void main(String[] args) throws IOException{
         initializeContactsFile();
         contacts = loadContacts();
+        System.out.println("    Edit Your Contacts");
 
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
@@ -61,7 +62,7 @@ public class ContactsCreate {
                 .collect(Collectors.toList());
     }
     private static int displayMenu(Scanner scanner) {
-        System.out.println("1. View contacts.");
+        System.out.println("\n1. View contacts.");
         System.out.println("2. Add a new contact.");
         System.out.println("3. Search a contact by name.");
         System.out.println("4. Delete an existing contact.");
@@ -97,15 +98,15 @@ public class ContactsCreate {
                 System.out.print("Enter new contact phone number: ");
                 String phoneNumber = scanner.next();
                 contacts.add(new Contact(name, phoneNumber));
-                System.out.println("Contact was overwrite successfully.\n");
+                System.out.println("Contact was overwrite successfully.");
             } else {
-                System.out.println("Please enter the contact information again.\n");
+                System.out.println("Please enter the contact information again.");
             }
         } else {
             System.out.print("Enter contact phone number: ");
             String phoneNumber = scanner.next();
             contacts.add(new Contact(name, phoneNumber));
-            System.out.println("Contact added successfully.\n");
+            System.out.println("Contact added successfully.");
         }
     }
     private static void deleteOldContact(String name){
@@ -133,7 +134,7 @@ public class ContactsCreate {
             System.out.println("--------------------------");
             formatPrint(foundContact.get());
         } else {
-            System.out.println("Contact not found.\n");
+            System.out.println("Contact not found.");
         }
     }
     private static void deleteExistingContact(Scanner scanner){
@@ -149,9 +150,9 @@ public class ContactsCreate {
         }
         if(contactToDelete != null) {
             contacts.remove(contactToDelete);
-            System.out.println("Contact deleted successfully.\n");
+            System.out.println("Contact deleted successfully.");
         } else {
-            System.out.println("Contact not found.\n");
+            System.out.println("Contact not found.");
         }
     }
     private static void saveContacts() throws IOException {
